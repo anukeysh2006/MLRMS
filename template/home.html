@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medico-legal Records</title>
+    <link rel="icon"  href="{{ url_for('static', filename='download.png')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}" >
+
+</head>
+
+<body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='download.png')}}" alt="Logo" class="logo">
+        <h1>Medico-legal Records</h1>
+        <a href="{{ url_for('register')}}"
+        class="signup-btn">Sign Up</a>
+    </div>
+    <h2 class="container-wrapper">Choose your role</h2>
+    <div class="container-wrapper">
+        <div class="row1">
+            <div class="container">
+                <a href="{{ url_for('login')}}">
+                    <img src="{{ url_for('static', filename='hos.jpg')}}" alt="Example Image"> Hospital Administrator</a>
+            </div>
+            <div class="container">
+                <a href="{{ url_for('login') }}"><img src="{{ url_for('static', filename='download (1).jpg') }}" alt="Example Image"> Healthcare Providers</a>
+            </div>
+            <div class="container">
+                <a href="{{ url_for('login') }}"><img src="{{ url_for('static', filename='ins.jpg') }}" alt="Example Image"> Insurance Companies</a>
+            </div>
+        </div>
+        <div class="row2">
+            <div class="container">
+                <a href="{{ url_for('login') }}"><img src="{{ url_for('static', filename='leg.jpg') }}" alt="Example Image"> Legal Professionals</a>
+            </div>
+            <div class="container">
+                <a href="{{ url_for('login') }}"><img src="{{ url_for('static', filename='fam.jpg') }}" alt="Example Image"> Patients & Family Members</a>
+            </div>
+            <div class="container">
+                <a href="{{ url_for('login') }}"><img src="{{ url_for('static', filename='law.png') }}" alt="Example Image"> Law Enforcement Officials</a>
+            </div>
+        </div>
+    </div>
+    <!--<center><h3>If you're an Admin ? <a class="ad" href="adminlogin.html">Log In</a></h3></center>-->
+</body>
+
+</html>

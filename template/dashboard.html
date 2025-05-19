@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medico-legal Records</title>
+    <link rel="icon" href="{{ url_for('static', filename='download.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="user-info">
+                <img src="{{ url_for('static', filename='profile (2).jpg') }}" alt="User Profile" class="profile-pic">
+                <h2 id="welcome-message">Welcome, <span id="user-name">{{ user_name }}</span>!</h2>
+                <p id="user-role">Role: <span id="role">{{ user_role }}</span></p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('dashboard_redirect') }}" class="active">Dashboard</a></li>
+                <li><a href="{{ url_for('search') }}">Search Record</a></li>
+                {% if user_role == 'Hospital Administrator' %}
+                <li><a href="{{ url_for('upload') }}">Upload Record</a></li>
+                <li><a href="{{url_for('manage_permissions')}}">View Record Permissions</a></li>
+                
+                {% endif %}
+                <li><a href="{{ url_for('settings') }}">Settings</a></li>
+                <li><a onclick="showLogoutPopup()"><section class="logout" id="logout-button">Logout</section></a></li>
+            </ul>
+        </div>
+
+        <div class="overlay" id="logoutOverlay">
+            <div class="popup">
+                <h2>Logout Confirmation</h2>
+                <p>Are you sure you want to logout?</p>
+                <div class="popup-buttons">
+                    <button class="logout-button popup-button" onclick="logout()">Logout</button>
+                    <button class="cancel-button popup-button" onclick="hideLogoutPopup()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <h1>Dashboard</h1>
+                <a href="{{ url_for('home') }}" class="signup-btn">Home</a>
+            </header>
+
+            <section class="quick-actions">
+                {% if user_role == 'Hospital Administrator' %}
+                <button onclick="location.href='{{ url_for('upload') }}'">Upload Record</button>
+
+                <button onclick="location.href='{{ url_for('manage_permissions') }}'">Notifications</button>
+                {% endif %}
+                <button onclick="location.href='{{ url_for('search') }}'">Search Record</button>
+
+            </section>
+
+            <section class="recent-activity">
+                <h2>Recent Activity</h2>
+                <ul>
+                    <li>Last Accessed Record: <span id="last-accessed">Record 123</span></li>
+                    <li>Pending Approvals: <span id="pending-approvals">2</span></li>
+                </ul>
+            </section>
+
+            <section class="role-specific">
+                <h2>Role-Specific Section</h2>
+                <div id="admin-activity">
+                    <h3>Admin Activity</h3>
+                    <ul>
+                        <li>User logged in: <span id="user-login">{{ user_name }}</span></li>
+                        <li>User logged out: <span id="user-logout">-</span></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        function showLogoutPopup() {
+            document.getElementById('logoutOverlay').style.display = 'flex';
+        }
+
+        function hideLogoutPopup() {
+            document.getElementById('logoutOverlay').style.display = 'none';
+        }
+
+        function logout() {
+            window.location.href = "{{ url_for('index1') }}";
+        }
+    </script>
+</body>
+</html>

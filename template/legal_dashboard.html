@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Professional Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="user-info">
+                <img src="{{ url_for('static', filename='profile (2).jpg') }}" alt="User Profile" class="profile-pic">
+                <h2 id="welcome-message">Welcome, <span id="user-name">Lawyer</span>!</h2>
+                <p id="user-role">Role: <span id="role">Legal Professional</span></p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('legal_professionals')}}" class="active">Dashboard</a></li>
+                <li><a href="{{ url_for('request_records') }}">Request Medical Records</a></li>
+              
+                <li><a href="{{ url_for('settings')}}">Settings</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <header>
+                <h1>Legal Professional Dashboard</h1>
+                
+            </header>
+            
+            <section class="quick-actions">
+                <button onclick="location.href='{{ url_for('request_records')}}'">Request Medical Records</button>
+                <button onclick="location.href='{{ url_for('accessible_records_by_category', category='Medical') }}'">View Medical Records</button>
+                <button onclick="location.href='{{ url_for('accessible_records_by_category', category='Legal') }}'">View Legal Records</button>
+                
+            </section>
+
+            <section class="role-specific">
+                <h2>Legal Tools</h2>
+                <ul>
+                    <li>Request and Access Medical Records for Legal Cases</li>
+                    <li>View Case-Related Reports</li>
+                    <li>Submit and Manage Legal Documentation</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+
+   
+</body>
+</html>

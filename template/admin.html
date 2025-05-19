@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medico-legal Records</title>
+    <link rel="icon"  href="{{ url_for('static', filename='download.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <div class="admin-container">
+        <div class="dash">
+            <a href="{{ url_for('home.html') }}"
+        class="signup-btn">Back to Home</a>
+        </div>
+        <header>
+            <h1>Admin Panel</h1>
+        </header>
+
+        <section class="user-management">
+            <h2>User Management</h2>
+            <table id="user-table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- User data will be dynamically added here -->
+                    <tr>
+                        <td>1</td>
+                        <td>Amruth</td>
+                        <td>amruth@medicolegal.com</td>
+                        <td>Doctor</td>
+                        <td>
+                            <button onclick="editUser('1')">Edit</button>
+                            <button onclick="deleteUser('1')">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jane Smith</td>
+                        <td>jane.smith@example.com</td>
+                        <td>Legal Officer</td>
+                        <td>
+                            <button onclick="editUser('2')">Edit</button>
+                            <button onclick="deleteUser('2')">Delete</button>
+                        </td>
+                    </tr>
+                    <!-- Example rows, repeat with actual data -->
+                </tbody>
+            </table>
+
+            <button id="add-user-button">Add User</button>
+        </section>
+
+        <section class="user-activity-logs">
+            <h2>User Activity Logs</h2>
+            <table id="activity-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>User ID</th>
+                        <th>Action</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Activity logs will be dynamically added here -->
+                    <tr>
+                        <td>2023-10-27 10:00:00</td>
+                        <td>1</td>
+                        <td>Record Viewed</td>
+                        <td>Case ID: 12345</td>
+                    </tr>
+                    <tr>
+                        <td>2023-10-27 10:15:00</td>
+                        <td>2</td>
+                        <td>Record Uploaded</td>
+                        <td>Case ID: 67890</td>
+                    </tr>
+                    <!-- Example rows, repeat with actual data -->
+                </tbody>
+            </table>
+        </section>
+
+        <section class="security-settings">
+            <h2>Security Settings</h2>
+            <div class="setting">
+                <label for="two-factor-auth">Two-Factor Authentication:</label>
+                <input type="checkbox" id="two-factor-auth" name="two-factor-auth">
+            </div>
+            <div class="setting">
+                <button id="reset-password-button">Reset Password</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('add-user-button').addEventListener('click', function() {
+            // In a real application, you would:
+            // 1. Display a form to add a new user
+            // 2. Send the new user data to the server using the Fetch API or XMLHttpRequest
+            alert('Add User functionality not implemented.');
+        });
+
+        function editUser(userID) {
+            // In a real application, you would:
+            // 1. Display a form to edit the user with the given ID
+            // 2. Send the updated user data to the server using the Fetch API or XMLHttpRequest
+            alert(`Edit User with ID: ${userID} not implemented.`);
+        }
+
+        function deleteUser(userID) {
+            // In a real application, you would:
+            // 1. Confirm the deletion with the user
+            // 2. Send a request to the server to delete the user with the given ID
+            alert(`Delete User with ID: ${userID} not implemented.`);
+        }
+
+        document.getElementById('reset-password-button').addEventListener('click', function() {
+            // In a real application, you would:
+            // 1. Send a request to the server to initiate the password reset process
+            alert('Reset Password functionality not implemented.');
+        });
+    </script>
+</body>
+</html>

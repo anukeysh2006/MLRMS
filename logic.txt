@@ -1,0 +1,27 @@
+now 4 actors have been completed with thie rfunctionalities except notifications page for each actor and settings page the remaining are patient's actor and licence actor 
+so the logic we are going to implement for the 2 actors is 
+the patients dashboard can have 3 buttons 
+1)requesting record
+this should include sending request to hospital administrator with their case id and the hospital administrator should view in the permission requests page ,the request from the patients like patient123 has requested file of case id 123  and has the ability to approve or reject .if he approves the patient can view their case id file else it should display Request was denied if nothing is done status should be pending 
+2)view and download record 
+this button should take the patient to a page where he/she can view their record that has the permission given by hos admin and has the ability to download it 
+3)claim insurance that we will work on it later
+
+
+
+ok now lets move on to notifiactions 
+notifications should appear as a mark over the notifications button if new notifications are recieved and that notification mark should diappear when the old notificaitons are opened 
+1)hospital administrator should receive notification in notifications page if 
+a record is uploaded ,as ("CASE ID ___ has been succuessfully uploaded")
+when receives a request from legal professionals or law enforcement officials or patienets and family members or insurance companies as ("___(Role) ____(name) has requested case id ____")
+2)legal professionals  should receive notification in notifications page if 
+the record access has been accepted or rejected as("Access to case id__ has been (approved/rejected)")
+3)law enforcement officials   should receive notification in notifications page if 
+the record access has been accepted or rejected as("Access to case id__ has been (approved/rejected)")
+a record is uploaded ,as("CASE ID___ has been successfully uploaded")
+4)patients  should receive notification in notifications page if 
+the record access has been accepted or rejected as("Access to case id__ has been (approved/rejected)")
+when insurance company accepts the claim as("insurance claim for case id____ has been accepted by inusrance company_____")
+5)Insurance companies should receive notification in notifications page if 
+the record access has been accepted or rejected as("Access to case id__ has been (approved/rejected)")
+when patients claim for insuracne as ("Patient _____(patient name) has claimed for insurance for case id____")

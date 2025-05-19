@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login - Medico-legal Records</title>
+  <link rel="icon" href="{{ url_for('static', filename='download.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style1.css') }}" />
+</head>
+<body>
+  <div class="header">
+    <img src="{{ url_for('static', filename='download.png') }}" alt="Logo" class="logo">
+    <h1>Medico-legal Records</h1>
+    <a href="{{ url_for('home') }}" class="signup-btn">Home</a>
+  </div>
+
+  <div class="container">
+    <h2>Welcome back to Medico-legal Records!</h2>
+    <form method="POST" action="{{ url_for('login') }}">
+      <div class="form-group">
+        <label for="user">UserID/Email*</label>
+        <input type="text" name="username" id="user" class="form-control"  placeholder="Enter your email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="pass">Password*</label>
+        <input type="password" name="password" id="pass" class="form-control" placeholder="Enter password" required />
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="submit-button">Login</button>
+      </div>
+    </form>
+
+    <center>
+      <h3>Don't have an account? <a class="su" href="{{ url_for('register') }}">Sign Up</a></h3>
+    </center>
+
+    
+  </div>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+</body>
+</html>

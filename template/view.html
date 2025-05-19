@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medico-legal Records</title>
+    <link rel="icon"  href="{{ url_for('static', filename='download.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='view.css') }}">
+</head>
+<body>
+    <div class="record-details-container">
+        <div class="dash">
+            <a href="#" id="dashboard-link"
+        class="signup-btn">Back to Dashboard</a>
+        </div>
+        <header>
+            <h1>Medico-legal Record Details</h1>
+        </header>
+
+        <section class="case-details">
+            <h2>Case Information</h2>
+            <div class="detail-row">
+                <label>Patient Name:</label>
+                <span id="patient-name"></span>
+            </div>
+            <div class="detail-row">
+                <label>Case ID:</label>
+                <span id="case-id"></span>
+            </div>
+            <div class="detail-row">
+                <label>Date:</label>
+                <span id="date"></span>
+            </div>
+            <div class="detail-row">
+                <label>Document Type:</label>
+                <span id="document-type"></span>
+            </div>
+            <div class="detail-row">
+                <label>Uploaded By:</label>
+                <span id="uploaded-by"></span>
+            </div>
+            
+        </section>
+
+        <section class="document-view">
+            <h2>Document View</h2>
+            <!-- Replace with actual document viewing component (e.g., PDF viewer) -->
+            <iframe id="document-iframe" src="ijpccr-2022-21.pdf" width="100%" height="600px"></iframe>
+        </section>
+
+        <section class="comments-section">
+            <h2>Notes</h2>
+            <textarea name="notes" id="notes"></textarea>
+            <h2>Commands</h2>
+            <ul id="comments-list">
+                <!-- Add more comments dynamically -->
+            </ul>
+
+            <textarea id="new-comment" placeholder="Add a comment"></textarea>
+            <button id="add-comment-button" onclick="add()">Add Comment</button>
+        </section>
+
+        <section class="actions">
+            <button id="download-button">Download</button>
+            <button id="print-button">Print</button>
+            <button id="edit-button">Edit</button> <!-- Conditional display based on user role -->
+        </section>
+    </div>
+
+    <script>
+
+document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        alert("Unauthorized access! Please log in.");
+        window.location.href = "{{ url_for('template', filename='home.html')}}";
+        return;
+    }
+
+    fetch("http://localhost:5000/api/getUserDetails", {
+        method: "GET",
+        headers: { "Authorization": `Bearer ${token}` },
+    })
+    .then(response => response.json().then(data => ({ status: response.status, body: data })))
+    .then(({ status, body }) => {
+        if (status !== 200) throw new Error(body.message || "Failed to fetch user details");
+
+        const dashboardMap = {
+            "Hospital Administrator": "{{ url_for('template', filename='hospital_dashboard.html')}}",
+            "Healthcare Providers": "{{ url_for('template', filename='healthcare_dashboard.html')}}",
+            "Insurance Companies":"{{ url_for('template', filename='insurance_dashboard.html')}}",
+            "Legal Professionals":"{{ url_for('template', filename='legal_dashboard.html')}}",
+            "Patients & Family Members": "{{ url_for('template', filename='patient_dashboard.html')}}",
+            "Law Enforcement Officials": "{{ url_for('template', filename='law_dashboard.html')}}",
+        };
+
+        document.getElementById("dashboard-link").setAttribute("href", dashboardMap[body.role] ||"{{ url_for('template', filename='home.html')}}");
+
+        if(body.role=="Healthcare Providers"||body.role=="Legal Professionals"||body.role=="Patients & Family Members" ){
+            document.getElementById("edit-button").style.display="none";
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert(error.message || "An unexpected error occurred");
+    });
+});
+        document.addEventListener("DOMContentLoaded", async function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const _id = urlParams.get("caseID");  // ✅ Change this to `_id`
+    console.log("Extracted _id:", _id); // 🛑 Debugging
+
+    if (!_id) {
+        alert("No record ID provided.");
+        window.location.href ="{{ url_for('template', filename='hospital_dashboard.html')}}";
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    try {
+        const response = await fetch(`http://localhost:5000/api/record?_id=${encodeURIComponent(_id)}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch record details");
+        }
+
+        const recordDetails = await response.json();
+        console.log("Fetched Record:", recordDetails); // 🛑 Debugging
+
+        document.getElementById("patient-name").textContent = recordDetails.patientName;
+        document.getElementById("case-id").textContent = recordDetails.caseId;
+        document.getElementById("date").textContent = new Date(recordDetails.date).toLocaleDateString();
+        document.getElementById("uploaded-by").textContent = recordDetails.uploadedBy;
+        document.getElementById("document-type").textContent = recordDetails.category;
+        document.getElementById("document-iframe").src = recordDetails.documentURL;
+        document.getElementById("notes").textContent = recordDetails.notes;
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Error fetching record details.");
+    }
+});
+/*
+ // Function to fetch comments
+async function fetchComments(caseID) {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`http://localhost:5000/api/getComments?caseID=${caseID}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch comments");
+
+        const comments = await response.json();
+        const commentList = document.getElementById("comments-list");
+        commentList.innerHTML = ""; // Clear existing comments
+
+        comments.forEach(comment => {
+            const commentItem = document.createElement("li");
+            commentItem.innerHTML = `<strong>${comment.author?.name || "Unknown"}:</strong> ${comment.text} 
+            <span class="comment-date">${new Date(comment.date).toLocaleDateString()}</span>`;
+            commentList.appendChild(commentItem);
+        });
+    } catch (error) {
+        console.error("Error fetching comments:", error);
+    }
+}
+
+// Add new comment
+document.getElementById("add-comment-button").addEventListener("click", async function () {
+    const newCommentText = document.getElementById("new-comment").value.trim();
+    if (newCommentText === "") return;
+
+    const caseID = new URLSearchParams(window.location.search).get("caseID");
+    const token = localStorage.getItem("token");
+
+    try {
+        const response = await fetch("http://localhost:5000/api/addComment", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ caseID, text: newCommentText })
+        });
+
+        if (!response.ok) throw new Error("Failed to add comment");
+
+        // Reload comments after successful addition
+        fetchComments(caseID);
+        document.getElementById("new-comment").value = ""; // Clear input
+    } catch (error) {
+        console.error("Error adding comment:", error);
+    }
+});
+
+// ✅ Fetch comments on page load
+const caseID = new URLSearchParams(window.location.search).get("caseID");
+if (caseID) {
+    fetchComments(caseID);
+}
+*/
+function add(){
+    const c=document.getElementById("new-comment").value;
+    if (c.trim() === "") return; 
+    const com=document.createElement("h4");
+    com.textContent=c;
+    document.getElementById("comments-list").appendChild(com);
+    document.getElementById("new-comment").value = "";
+}
+
+// Download button functionality
+document.getElementById("download-button").addEventListener("click", function () {
+    const fileURL = document.getElementById("document-iframe").src;
+    const filename = fileURL.split('/').pop(); // Extract filename from URL
+
+    const downloadLink = document.createElement("a");
+    downloadLink.href = `http://localhost:5000/api/download/${filename}`; // Backend endpoint
+    downloadLink.setAttribute("download", filename);
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink); // Clean up
+});
+
+
+// Print functionality
+document.getElementById("print-button").addEventListener("click", function () {
+    window.print();
+});
+
+// Edit button functionality (ensure role-based access control)
+document.getElementById("edit-button").addEventListener("click", function () {
+    const caseID = new URLSearchParams(window.location.search).get("caseID");
+    window.location.href = `edit.html?caseID=${caseID}`;
+});
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medico-legal Records</title>
+    <link rel="icon"  href="{{ url_for('static', filename='download.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='notifications.css') }}">
+</head>
+<body>
+    <div class="notifications-container">
+        <div class="dash">
+            <a href="#" id="dashboard-link"
+        class="signup-btn">Back to Dashboard</a>
+        </div>
+        <header>
+            <h1>Notifications</h1>
+        </header>
+
+        <ul class="notifications-list">
+            <!-- Notifications will be dynamically added here -->
+            <li class="notification">
+                <span class="notification-type">New Record</span>
+                <span class="notification-message">New record uploaded: Case ID 12345</span>
+                <span class="notification-date">2023-10-27 10:00:00</span>
+                <button class="mark-read-button">Mark as Read</button>
+            </li>
+            <li class="notification">
+                <span class="notification-type">Access Request</span>
+                <span class="notification-message">User John Doe requested access to Case ID 67890</span>
+                <span class="notification-date">2023-10-27 09:30:00</span>
+                <button class="mark-read-button">Mark as Read</button>
+            </li>
+            <!-- Example notifications, repeat with actual data -->
+        </ul>
+    </div>
+
+ <script>
+  function markAsRead(notificationId, button) {
+    fetch(`/mark-notification-read/${notificationId}`, { method: 'POST' })
+      .then(() => {
+        button.remove();  // Remove button
+      });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    
+    background-image: linear-gradient(
+       
+        rgba(5, 21, 165, 0.8),
+        rgba(20, 20, 61, 0.7)
+      ),
+      url(medical-records.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+.settings-container {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Adjust as needed */
+    max-width: 900px;
+}
+.dash a{
+    text-decoration: none;
+    display: flex;
+    justify-content: flex-end;
+    color: #333;
+}
+.dash a:hover{
+    text-decoration:underline;
+    color: #007BFF;
+}
+header {
+    text-align: center;
+    
+    margin-bottom: 20px;
+}
+
+.profile-information h2,
+.security-settings h2,
+.notification-preferences h2,
+.system-customization h2 {
+    margin-bottom: 10px;
+}
+
+.profile-pic-container {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.detail-row {
+    
+    margin-bottom: 8px;
+}
+
+.detail-row label {
+    font-weight: bold;
+}
+
+.setting {
+    margin-bottom: 10px;
+}
+
+.setting label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.setting input[type="checkbox"],
+.setting select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.security-settings button,
+.system-customization button,
+.logout button,
+.profile-pic-container button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.security-settings button:hover,
+.system-customization button:hover,
+.logout button:hover,
+.profile-pic-container button:hover {
+    background-color: #0056b3;
+}
+.logout button:hover{
+    background-color: #c40202;
+    
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+
+.popup {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 300px;
+}
+
+.popup h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.popup p {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.popup-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+.cancel-button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.cancel-button:hover {
+    background-color: #5a6268;
+}

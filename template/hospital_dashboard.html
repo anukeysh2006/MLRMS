@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medico-legal Records</title>
+    <link rel="icon"  href="{{ url_for('static', filename='download.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="user-info">
+                <img src="{{ url_for('static', filename='profile (2).jpg') }}" alt="User Profile" class="profile-pic">
+                <h2 id="welcome-message">Welcome, <span id="user-name">Admin</span>!</h2>
+                <p id="user-role">Role: <span id="role">Role</span></p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('dashboard') }}" class="active">Dashboard</a></li>
+                <li><a href="{{ url_for('upload') }}">Upload Record</a></li>
+                <li><a href="{{ url_for('search') }}">Search Record</a></li>
+                <li><a href="{{ url_for('notifications') }}">Notifications</a></li>
+                <li><a href="{{ url_for('settings') }}">Settings</a></li>
+               
+                </section></a></li>
+            </ul>
+        </div>
+        <div class="overlay" id="logoutOverlay">
+            <div class="popup">
+                <h2>Logout Confirmation</h2>
+                <p>Are you sure you want to logout?</p>
+                <div class="popup-buttons">
+                    <button class="logout-button popup-button" onclick="logout()">Logout</button>
+                    <button class="cancel-button popup-button" onclick="hideLogoutPopup()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <h1>Hospital Admin Dashboard</h1>
+                <a href="{{ url_for('home') }}"
+        class="signup-btn">Home</a>
+            </header>
+
+            <section class="quick-actions">
+                <button onclick="location.href='/upload'">Upload Record</button>
+                <button onclick="location.href='/search'">Search Record</button>
+                <button onclick="location.href='/notifications'">View Notifications</button>
+            </section>
+
+            <section class="recent-activity">
+                <h2>Recent Activity</h2>
+                <ul>
+                    <li>Last Accessed Record caseID: <span id="last-accessed"></span></li>
+                    <li>Pending Approvals: <span id="pending-approvals"></span></li>
+                    <!-- Add more recent activity items dynamically -->
+                </ul>
+            </section>
+
+            <section class="role-specific">
+                <!-- Content based on user role -->
+                <h2>Role-Specific Section</h2>
+                <div id="admin-activity" style="display:none;">
+                    <h3>Admin Activity</h3>
+                    <ul>
+                        <li>User logged in: <span id="user-login">user</span></li>
+                        <li>User logged out: <span id="user-logout">user</span></li>
+                    </ul>
+                </div>
+                <div id="doctor-records" style="display:none;">
+                    <h3>Doctor Records</h3>
+                    <ul>
+                        <li>Patient visited: <span id="patient-visit">patient</span></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+       document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        alert("Unauthorized access! Please log in.");
+        window.location.href = "{{ url_for('template', filename='home.html') }}";
+        return;
+    }
+
+    // ✅ Fetch User Details
+    fetch("http://localhost:5000/api/getUserDetails", {
+        method: "GET",
+        headers: { "Authorization": `Bearer ${token}` },
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("user-name").textContent = data.name;
+        document.getElementById("role").textContent = data.role;
+    })
+    .catch(error => console.error("Error:", error));
+
+    // ✅ Fetch Recent Activity
+    fetch("http://localhost:5000/api/recentActivity", {
+        method: "GET",
+        headers: { "Authorization": `Bearer ${token}` },
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("last-accessed").textContent = data.lastAccessedRecord;
+        document.getElementById("pending-approvals").textContent = data.pendingApprovals;
+
+        // ✅ Role-Specific Content
+        const role = document.getElementById("role").textContent;
+        if (role === "Hospital Administrator") {
+            document.getElementById("admin-activity").style.display = "block";
+            document.getElementById("user-login").textContent = data.roleData.lastUserLoggedIn;
+        } else if (role === "Healthcare Providers") {
+            document.getElementById("doctor-records").style.display = "block";
+            document.getElementById("patient-visit").textContent = data.roleData.lastPatientVisited;
+        }
+    })
+    .catch(error => console.error("Error fetching recent activity:", error));
+});
+
+    </script>
+</body>
+</html>

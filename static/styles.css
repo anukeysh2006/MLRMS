@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200i,400&display=swap');
+
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+   flex-direction: column;
+    align-items: center;
+    
+    height: 100vh;
+    
+   
+    
+  
+  
+  color: rgb(255, 255, 255);
+}
+
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  
+  background-image: linear-gradient(
+     
+      rgba(5, 21, 165, 0.8),
+      rgba(20, 20, 61, 0.7)
+    ),
+    url(medical-records.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+
+
+
+
+
+h2 {
+    text-align: center;
+    
+    padding: 30px;
+}
+
+.container-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+    max-width: 900px;
+     }
+
+.row1 {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    
+}
+.row2 {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    
+    padding-bottom: 50px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 3px solid black;
+    background-color: rgba(9, 55, 104, 1);
+    padding: 10px;
+    width: fit-content;
+    text-align: center;
+    border-radius: 0 15px 0 15px;
+}
+.container:hover{
+    border-color: blanchedalmond;
+    background-color:rgba(9, 55, 104, 0.5);
+    
+}
+
+.container img {
+    width: 350px; 
+    height: 250px;
+    border-radius: 6px;
+}
+
+.container a {
+    margin-top: 10px; 
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    
+}
+.container a:hover{
+  color: antiquewhite;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0.7rem;
+}
+
+
+.header{
+    background-color: blanchedalmond;
+    color: rgb(0, 34, 34);
+    width: 100%;
+    height: 150px;
+    display: flex;
+    
+    justify-content: space-between;
+    
+    border: 10px;
+    padding: 20px;
+    
+    
+}
+.logo {
+    width: 100px;
+    height: 100px;
+    padding-left: 20px;
+}
+
+.signup-btn {
+    margin-top: 26px;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: #0368d4;
+    color: white;
+    height: 20px;
+    border: none;
+    margin-right: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-bottom: 14px;
+    text-decoration: none;
+}
+.signup-btn:hover{
+    background-color: #0f81fa;
+}
+.header h1{
+    padding: 10px;
+}
+.ad{
+    text-decoration: none;
+    color: #1ee5ff;
+}
+.ad:hover{
+    text-decoration: underline;
+    
+  }

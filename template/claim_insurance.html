@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit Insurance Claim</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 30px;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 14px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 600px) {
+            form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>Submit Insurance Claim</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label>Policy Number:</label>
+        <input type="text" name="policy_number" required>
+
+        <label>Case ID:</label>
+        <input type="text" name="case_id" required>
+
+        <label>Patient Name:</label>
+        <input type="text" name="patient_name" required>
+
+        <label>Gender:</label>
+        <select name="gender" required>
+            <option value="">--Select--</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+        </select>
+
+        <label>Age:</label>
+        <input type="number" name="age" required>
+
+        <label>Upload Bills:</label>
+        <input type="file" name="bills" required>
+
+        <label>Additional Details:</label>
+        <textarea name="additional_details" rows="4" placeholder="Optional..."></textarea>
+
+        <button type="submit">Submit Claim</button>
+    </form>
+</body>
+</html>

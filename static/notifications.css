@@ -1,0 +1,103 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    
+    background-image: linear-gradient(
+       
+        rgba(5, 21, 165, 0.8),
+        rgba(20, 20, 61, 0.7)
+      ),
+      url(medical-records.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+.notifications-container {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Adjust as needed */
+    max-width: 900px;
+}
+.dash a{
+    text-decoration: none;
+    display: flex;
+    justify-content: flex-end;
+    color: #333;
+}
+.dash a:hover{
+    text-decoration:underline;
+    color: #007BFF;
+}
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.notifications-list {
+    list-style: none;
+    padding: 0;
+}
+
+.notification {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notification.read {
+    background-color: #eee;
+}
+
+.notification-type {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.notification-message {
+    flex: 1;
+}
+
+.notification-date {
+    font-size: 0.8em;
+    color: #777;
+    margin-left: 10px;
+}
+
+.mark-read-button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.mark-read-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apply for Insurance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            padding: 30px;
+            color: #333;
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 90%;
+            margin: 40px auto 0;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        p {
+            text-align: center;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h2>Apply for Insurance</h2>
+
+    <form method="get" action="{{ url_for('claim_insurance', company_id=0) }}" onsubmit="return setCompanyID(event)">
+        <label for="company">Select Insurance Company:</label>
+        <select id="company" name="company" required>
+            <option value="">-- Select a Company --</option>
+            {% for company in companies %}
+                <option value="{{ company['id'] }}">{{ company['name'] }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Continue</button>
+    </form>
+
+    <script>
+        function setCompanyID(event) {
+            const companyId = document.getElementById('company').value;
+            if (!companyId) return false;
+            const form = event.target.closest("form");
+            form.action = "/claim-insurance/" + companyId;
+            return true;
+        }
+    </script>
+
+    <h3>Approved Claims</h3>
+
+    {% if approved_claims %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Claim ID</th>
+                    <th>Case ID</th>
+                    <th>Insurance Company</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for claim in approved_claims %}
+                    <tr>
+                        <td>{{ claim['claim_id'] }}</td>
+                        <td>{{ claim['case_id'] }}</td>
+                        <td>{{ claim['company_name'] }}</td>
+                        <td>{{ claim['status'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No approved claims found.</p>
+    {% endif %}
+</body>
+</html>

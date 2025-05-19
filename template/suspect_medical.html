@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Medical Records</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007BFF;
+        }
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        p {
+            text-align: center;
+            font-size: 1.1em;
+            margin-top: 40px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center; margin-top: 20px; color:white "> Medical Records</h2>
+
+    {% if records %}
+    <table>
+        <tr>
+            <th>Patient Name</th>
+            <th>Case ID</th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Notes</th>
+            <th>View File</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record['patient_name'] }}</td>
+            <td>{{ record['case_id'] }}</td>
+            <td>{{ record['date'] }}</td>
+            <td>{{ record['category'] }}</td>
+            <td>{{ record['notes'] }}</td>
+            <td><a href="{{ url_for('uploaded_file', filename=record['file_path'].split('/')[-1]) }}" target="_blank">View</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p style="text-align:center; margin-top: 20px; color:white "> No  medical records found.</p>
+    {% endif %}
+</body>
+</html>

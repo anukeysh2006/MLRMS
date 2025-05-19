@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Medico-legal Records</title>
+  <link rel="icon" href="{{ url_for('static', filename='download.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}" />
+</head>
+<body>
+  <div class="header">
+    <img src="{{ url_for('static', filename='download.png') }}" alt="Logo" class="logo">
+    <h1>Medico-legal Records</h1>
+    <a href="{{ url_for('home') }}" class="signup-btn">Home</a>
+  </div>
+
+  <div class="container">
+    <h2>Welcome to Medico-legal Records!</h2>
+    <form id="survey-form" method="POST" action="/register" enctype="multipart/form-data">
+      
+      <div class="form-group">
+        <label for="name">Name*</label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          class="form-control"
+          placeholder="Enter your name"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">UserID/Email*</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="form-control"
+          placeholder="Enter your UserID"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <p>Select your role *</p>
+        <select id="dropdown" name="role" class="form-control" required>
+          <option disabled selected value>Select your role</option>
+          <option>Hospital Administrator</option>
+          <option>Healthcare Providers</option>
+          <option>Insurance Companies</option>
+          <option>Legal Professionals</option>
+          <option>Patients & Family Members</option>
+          <option>Law Enforcement Officials</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Upload Proof <span class="clue">(Work license)</span> *</label>
+        <input
+          type="file"
+          id="fileUpload"
+          name="fileUpload"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password*</label>
+        <input
+        type="password"
+        id="password"
+        name="password"
+        class="form-control"
+        placeholder="Enter password"
+        required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password*</label>
+        <input
+        type="password"
+        id="confirm-password"
+        name="confirm-password"
+        class="form-control"
+        placeholder="Confirm password"
+        required
+        />
+      </div>
+
+      <div class="form-group">
+        <button type="submit" id="submit" class="submit-button">
+          Sign Up
+        </button>
+      </div>
+    </form>
+
+  
+  </div>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+<!-- 
+  <script src="{{ url_for('static', filename='script.js') }}"></script> -->
+</body>
+</html>

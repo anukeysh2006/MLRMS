@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient & Family Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="user-info">
+                <img src="{{ url_for('static', filename='profile (2).jpg') }}" alt="User Profile" class="profile-pic">
+                <h2 id="welcome-message">Welcome, {{ user_name }}!</h2>
+                <p id="user-role">Role: {{ user_role }}</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('patient_dashboard') }}" class="active">Dashboard</a></li>
+              
+              
+                <li><a href="{{ url_for('settings') }}">Settings</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <h1>Patients & Family Dashboard</h1>
+                <a href="{{ url_for('home') }}" class="signup-btn">Home</a>
+            </header>
+
+            <section class="quick-actions">
+                <button onclick="location.href='{{ url_for('patient_request_records') }}'">Request Record Access</button>
+                <button onclick="location.href='{{ url_for('view_approved_records') }}'">View Approved Records</button>
+                <button onclick="location.href='{{ url_for('apply_insurance') }}'">Apply for Insurance</button>
+            </section>
+
+            <section class="role-specific">
+                <h2>Patient Services</h2>
+                <ul>
+                    <li>Access and Review Medical Records</li>
+                    <li>Schedule and Manage Doctor Appointments</li>
+                    <li>Handle Billing and Insurance Queries</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

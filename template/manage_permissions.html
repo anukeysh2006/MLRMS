@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Permissions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background: #f4f6f8;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        form {
+            display: inline;
+        }
+        button {
+            padding: 6px 12px;
+            margin: 2px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+        .approve { background-color: #2ecc71; }
+        .reject { background-color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <!-- Existing Pending Section -->
+<h2 style="text-align:center; margin-top: 20px; color:white ">Pending Permission Requests</h2>
+{% if pending_requests %}
+<table>
+    <tr>
+        <th>User Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Case ID</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    {% for req in pending_requests %}
+    <tr>
+        <td>{{ req['name'] }}</td>
+        <td>{{ req['email'] }}</td>
+        <td>{{ req['role'] }}</td>
+        <td>{{ req['case_id'] }}</td>
+        <td>{{ req['status'] }}</td>
+        <td>
+            <form method="post">
+                <input type="hidden" name="permission_id" value="{{ req['permission_id'] }}">
+                <button type="submit" name="action" value="Approved" class="approve">Approve</button>
+                <button type="submit" name="action" value="Rejected" class="reject">Reject</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p style="text-align:center; margin-top: 20px; color:white ">No pending requests.</p>
+{% endif %}
+
+<!-- New Past Requests Section -->
+<h2 style="margin-top:50px;color:white">Past Permission Decisions</h2>
+{% if past_requests %}
+<table>
+    <tr>
+        <th>User Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Case ID</th>
+        <th>Status</th>
+    </tr>
+    {% for req in past_requests %}
+    <tr>
+        <td>{{ req['name'] }}</td>
+        <td>{{ req['email'] }}</td>
+        <td>{{ req['role'] }}</td>
+        <td>{{ req['case_id'] }}</td>
+        <td style="color: {% if req['status'] == 'Approved' %}green{% else %}red{% endif %}; font-weight: bold;">
+            {{ req['status'] }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p style="text-align:center; margin-top: 20px;color:white">No past decisions available.</p>
+{% endif %}
+
+</body>
+</html>

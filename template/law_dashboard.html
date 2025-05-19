@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Law Enforcement Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="user-info">
+                <img src="{{ url_for('static', filename='profile (2).jpg') }}" alt="User Profile" class="profile-pic">
+                <h2 id="welcome-message">Welcome, <span id="user-name">Officer</span>!</h2>
+                <p id="user-role">Role: <span id="role">Law Enforcement Official</span></p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('law_enforcement')}}" class="active">Dashboard</a></li>
+                <li><a href="{{ url_for('request_access') }}">Request Case Access</a></li>
+
+               
+                <li><a href="{{ url_for('investigation_reports')}}">Investigation Reports</a></li>
+                <li><a href="{{ url_for('suspect_medical')}}"> Medical Reports</a></li>
+               
+                <li><a href="{{ url_for('settings')}}">Settings</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <header>
+                <h1>Law Enforcement Dashboard</h1>
+                <a href="{{ url_for('home')}}"
+        class="signup-btn">Home</a>
+            </header>
+            
+            <section class="quick-actions">
+              <button onclick="location.href='{{ url_for('upload') }}'">Upload Case Records</button>
+              <button onclick="location.href='{{ url_for('my_uploaded_records') }}'">View Investigation Reports</button>
+              <button onclick="location.href='{{ url_for('suspect_medical') }}'">Check  Medical Reports</button>
+          </section>
+          
+
+            <section class="role-specific">
+                <h2>Law Enforcement Tools</h2>
+                <ul>
+                    <li>Access Medical Records Related to Cases</li>
+                    <li>Review Investigation Reports</li>
+                    <li>Check  Medical Reports</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+
+   
+</body>
+</html>

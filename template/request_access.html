@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Request Record Access</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <style>
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+        form {
+            margin: 0;
+        }
+        button {
+            padding: 5px 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center; color: white;">Request Access to Case Records</h2>
+    <table>
+        <tr>
+            <th>Case ID</th>
+            <th>Patient Name</th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Notes</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record['case_id'] }}</td>
+            <td>{{ record['patient_name'] }}</td>
+            <td>{{ record['date'] }}</td>
+            <td>{{ record['category'] }}</td>
+            <td>{{ record['notes'] or "N/A" }}</td>
+            <td>{{ record['permission_status'] }}</td>
+            <td>
+                {% if record['permission_status'] == 'Not Requested' %}
+                <form method="post" action="{{ url_for('submit_access_request') }}">
+                    <input type="hidden" name="case_id" value="{{ record['case_id'] }}">
+                    <button type="submit">Request Access</button>
+                </form>
+                {% else %}
+                <button disabled>{{ record['permission_status'] }}</button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

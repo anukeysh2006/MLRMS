@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Medico-legal Record</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='edit.css') }}">
+</head>
+<body>
+    <div class="edit-container">
+        <h1>Edit Medico-legal Record</h1>
+        <form id="edit-form">
+            <label>Patient Name:</label>
+            <input type="text" id="patient-name" required>
+
+            <label>Case ID:</label>
+            <input type="text" id="case-id" disabled>
+
+            <label>Date:</label>
+            <input type="date" id="date" required>
+
+            <label>Document Type:</label>
+            <input type="text" id="document-type" required>
+
+            <label>Notes:</label>
+            <textarea id="notes"></textarea>
+
+            <button type="submit">Update Record</button>
+        </form>
+        <a href="{{ url_for('search') }}">Cancel</a>
+    </div>
+
+    <script>
+
+        
+        document.addEventListener("DOMContentLoaded", async function () {
+            const caseID = new URLSearchParams(window.location.search).get("caseID");
+            if (!caseID) {
+                alert("No Case ID provided");
+                window.location.href = "{{ url_for('search') }}";
+                return;
+            }
+
+            // Fetch record details
+            try {
+                const response = await fetch(`http://localhost:5000/api/record?_id=${caseID}`);
+                if (!response.ok) throw new Error("Failed to fetch record");
+                
+                const record = await response.json();
+                document.getElementById("patient-name").value = record.patientName;
+                document.getElementById("case-id").value = record.caseId;
+                document.getElementById("date").value = new Date(record.date).toISOString().split('T')[0];
+                document.getElementById("document-type").value = record.category;
+                document.getElementById("notes").value = record.notes;
+            } catch (error) {
+                console.error("Error fetching record:", error);
+                alert("Error loading record details");
+                window.location.href ="{{ url_for('search') }}";
+            }
+        });
+
+        // Handle form submission
+        document.getElementById("edit-form").addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const caseID = document.getElementById("case-id").value;
+            const updatedRecord = {
+                patientName: document.getElementById("patient-name").value,
+                date: document.getElementById("date").value,
+                category: document.getElementById("document-type").value,
+                notes: document.getElementById("notes").value
+            };
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/updateRecord/${caseID}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(updatedRecord)
+                });
+
+                if (!response.ok) throw new Error("Failed to update record");
+                alert("Record updated successfully");
+                window.location.href = "{{ url_for('search') }}";
+            } catch (error) {
+                console.error("Error updating record:", error);
+                alert("Failed to update record");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request Medical Records</title>
+    <style>
+        body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    
+    background-image: linear-gradient(
+       
+        rgba(5, 21, 165, 0.8),
+        rgba(20, 20, 61, 0.7)
+      ),
+      url(medical-records.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+        table { width: 90%; margin: auto; border-collapse: collapse; background: white; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+        th { background: #2c3e50; color: white; }
+        button { padding: 6px 12px; background: #2980b9; color: white; border: none; }
+        button:disabled { background: #95a5a6; }
+        
+  
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">Request Access to Medical Records</h2>
+    <table>
+        <tr>
+            <th>Case ID</th>
+            <th>Patient Name</th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Notes</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.case_id }}</td>
+            <td>{{ record.patient_name }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.category }}</td>
+            <td>{{ record.notes or "N/A" }}</td>
+            <td>{{ record.permission_status }}</td>
+            <td>
+                {% if record.permission_status == 'Not Requested' %}
+                <form method="POST" action="{{ url_for('legal_submit_request') }}">
+                    <input type="hidden" name="case_id" value="{{ record.case_id }}">
+                    <button type="submit">Request Access</button>
+                </form>
+                {% else %}
+                <button disabled>{{ record.permission_status }}</button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

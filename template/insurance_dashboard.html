@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Company Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="user-info">
+                <img src="{{ url_for('static', filename='profile (2).jpg') }}" alt="User Profile" class="profile-pic">
+                <h2>Welcome, Agent!</h2>
+                <p>Role: Insurance Company</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('insurance_company') }}" class="active">Dashboard</a></li>
+                <li><a href="{{ url_for('insurance_request_record') }}">Request Record Access</a></li>
+                <li><a href="{{ url_for('insurance_approved_records') }}">View Approved Records</a></li>
+               <li><a href="{{ url_for('view_claims') }}">View Insurance Claims</a></li>
+
+                
+                <li><a href="{{ url_for('settings') }}">Settings</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <h1>Insurance Company Dashboard</h1>
+                <a href="{{ url_for('home') }}" class="signup-btn">Home</a>
+            </header>
+
+            <section class="quick-actions">
+                <button onclick="location.href='{{ url_for('insurance_request_record') }}'">Request Record Access</button>
+                <button onclick="location.href='{{ url_for('insurance_approved_records') }}'">View Approved Records</button>
+                <button onclick="location.href='{{ url_for('view_claims') }}'">Notifications</button>
+
+            </section>
+
+            <section class="role-specific">
+                <h2>Insurance Tools</h2>
+                <ul>
+                    <li>Request access to policyholder medical records</li>
+                    <li>Download approved records for claim verification</li>
+                    <li>View and process insurance claims submitted by patients</li>
+                    <li>Secure data handling with approval/rejection workflows</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

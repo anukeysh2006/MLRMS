@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Medico-legal Records</title>
+    <link rel="icon"  href="{{ url_for('static', filename='download.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminlogin.css') }}" />
+  </head>
+  <body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='download.png') }}" alt="Logo" class="logo">
+        <h1>Medico-legal Records</h1>
+        <a href="{{ url_for('home') }}"
+        class="signup-btn">Home</a>
+    </div>
+    <div class="container">
+      <h2>Welcome back Admin!</h2>
+      <form id="survey-form">
+        
+        <div class="form-group">
+          <label id="email-label" for="email">UserID/Email*</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="form-control"
+            placeholder="Enter your UserID"
+            required
+          />
+        </div>
+        
+        
+        
+          <div class="form-group">
+            <label id="name-label" for="name">Password*</label>
+            <input
+              type="password"
+              
+              class="form-control"
+              placeholder="Enter password"
+              required
+            />
+          </div>
+          
+        <div class="form-group">
+          <button type="submit" id="submit" class="submit-button">
+            Login
+          </button>
+        </div>
+      </form>
+      
+    </div>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Uploaded Records</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            padding: 40px;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            text-align: center;
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        p {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.1em;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center; margin-top: 20px; color:white ">My Uploaded Records</h2>
+
+    {% if records %}
+    <table>
+        <tr>
+            <th>Patient Name</th>
+            <th>Case ID</th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Notes</th>
+            <th>View File</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record['patient_name'] }}</td>
+            <td>{{ record['case_id'] }}</td>
+            <td>{{ record['date'] }}</td>
+            <td>{{ record['category'] }}</td>
+            <td>{{ record['notes'] }}</td>
+            <td><a href="{{ url_for('uploaded_file', filename=record['file_path'].split('/')[-1]) }}" target="_blank">View</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>You have not uploaded any records yet.</p>
+    {% endif %}
+</body>
+</html>

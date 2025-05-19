@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medico-legal Records</title>
+    <link rel="icon"  href="{{ url_for('static', filename='download.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='record_details.css') }}">
+</head>
+<body>
+    <div class="record-details-container">
+        <div class="dash">
+            <a href="{{ url_for('dashboard')}}"
+        class="signup-btn">Back to Dashboard</a>
+        </div>
+        <header>
+            <h1>Medico-legal Record Details</h1>
+        </header>
+
+        <section class="case-details">
+            <h2>Case Information</h2>
+            <div class="detail-row">
+                <label>Patient Name:</label>
+                <span id="patient-name">John Doe</span>
+            </div>
+            <div class="detail-row">
+                <label>Case ID:</label>
+                <span id="case-id">12345</span>
+            </div>
+            <div class="detail-row">
+                <label>Date:</label>
+                <span id="date">2023-10-26</span>
+            </div>
+            <div class="detail-row">
+                <label>Uploaded By:</label>
+                <span id="uploaded-by">Admin User</span>
+            </div>
+            <div class="detail-row">
+                <label>Document Type:</label>
+                <span id="document-type">Accident Report</span>
+            </div>
+        </section>
+
+        <section class="document-view">
+            <h2>Document View</h2>
+            <!-- Replace with actual document viewing component (e.g., PDF viewer) -->
+            <iframe id="document-iframe" src="ijpccr-2022-21.pdf" width="100%" height="600px"></iframe>
+        </section>
+
+        <section class="comments-section">
+            <h2>Comments & Notes</h2>
+            <ul id="comments-list">
+                <li>
+                    <strong>Dr. Smith:</strong> Initial assessment completed.
+                    <span class="comment-date">2023-10-27</span>
+                </li>
+                <!-- Add more comments dynamically -->
+            </ul>
+
+            <textarea id="new-comment" placeholder="Add a comment"></textarea>
+            <button id="add-comment-button">Add Comment</button>
+        </section>
+
+        <section class="actions">
+            <button id="download-button">Download</button>
+            <button id="print-button">Print</button>
+            <button id="edit-button">Edit</button> <!-- Conditional display based on user role -->
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const caseID = urlParams.get('caseID');
+
+            // In a real application, you would:
+            // 1. Fetch the record details from the server based on the caseID using the Fetch API or XMLHttpRequest
+            // 2. Populate the page with the record details
+
+            // Simulate fetching record details
+            const recordDetails = {
+                patientName: 'Anukesyh',
+                caseID: 369,
+                date: '2023-10-26',
+                uploadedBy: 'Admin User',
+                documentType: 'Accident Report',
+                documentURL: 'placeholder.pdf' // Replace with actual document URL
+            };
+
+            // Populate the page with the simulated record details
+            document.getElementById('patient-name').textContent = recordDetails.patientName;
+            document.getElementById('case-id').textContent = recordDetails.caseID;
+            document.getElementById('date').textContent = recordDetails.date;
+            document.getElementById('uploaded-by').textContent = recordDetails.uploadedBy;
+            document.getElementById('document-type').textContent = recordDetails.documentType;
+            document.getElementById('document-iframe').src = recordDetails.documentURL('125935396.pdf');
+        });
+
+        document.getElementById('add-comment-button').addEventListener('click', function() {
+            const newCommentText = document.getElementById('new-comment').value;
+            if (newCommentText.trim() !== '') {
+                const commentList = document.getElementById('comments-list');
+                const newCommentItem = document.createElement('li');
+                newCommentItem.innerHTML = `<strong>User:</strong> ${newCommentText} <span class="comment-date">${new Date().toLocaleDateString()}</span>`; // Replace "User" with actual user's name
+                commentList.appendChild(newCommentItem);
+                document.getElementById('new-comment').value = ''; // Clear the textarea
+
+                // In a real application, you would:
+                // 1. Send the new comment to the server using the Fetch API or XMLHttpRequest
+                // 2. The server would store the comment in the database associated with the record
+            }
+        });
+
+        document.getElementById('download-button').addEventListener('click', function() {
+            // In a real application, trigger a download of the document file.
+            alert('Downloading document...');
+        });
+
+        document.getElementById('print-button').addEventListener('click', function() {
+            window.print();
+        });
+
+        document.getElementById('edit-button').addEventListener('click', function() {
+            //Redirect user to an edit page.  Check user permissions first.
+            alert('Redirecting to edit page...');
+        });
+
+    </script>
+</body>
+</html>

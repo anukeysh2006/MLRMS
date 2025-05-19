@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insurance Claims</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='table.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            padding: 40px;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #007bff;
+            color: white;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #eef6ff;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        td:last-child {
+            white-space: nowrap;
+        }
+
+        .no-action {
+            color: #888;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tbody tr {
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                padding: 10px;
+            }
+
+            td {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                border-bottom: none;
+            }
+
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                flex-basis: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>Insurance Claims Received</h2>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul style="color: green; text-align: center; list-style: none; padding: 0;">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <table>
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Policy Number</th>
+                <th>Case ID</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Additional Details</th>
+                <th>Uploaded Bills</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for claim in claims %}
+            <tr>
+                <td data-label="Patient Name">{{ claim.patient_name }}</td>
+                <td data-label="Policy Number">{{ claim.policy_number }}</td>
+                <td data-label="Case ID">{{ claim.case_id }}</td>
+                <td data-label="Gender">{{ claim.gender }}</td>
+                <td data-label="Age">{{ claim.age }}</td>
+                <td data-label="Additional Details">{{ claim.additional_details }}</td>
+               <td data-label="Uploaded Bills">
+    {% if claim.bills_path %}
+        {% set filename = claim.bills_path.replace('\\', '/').split('/')[-1] %}
+
+        <a href="{{ url_for('serve_bill_file', filename=filename) }}" target="_blank">View</a>
+    {% else %}
+        <span class="no-action">No File</span>
+    {% endif %}
+</td>
+
+
+                <td data-label="Status">{{ claim.status or "Pending" }}</td>
+                <td data-label="Action">
+                    {% if claim.status not in ["Approved", "Rejected"] %}
+                        <a href="{{ url_for('update_claim_status', claim_id=claim.id, action='approve') }}">Approve</a> |
+                        <a href="{{ url_for('update_claim_status', claim_id=claim.id, action='reject') }}">Reject</a>
+                    {% else %}
+                        <span class="no-action">No Action</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

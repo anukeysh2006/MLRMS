@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medico-legal Records</title>
+    <link rel="icon"  href="{{ url_for('static', filename='download.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="user-info">
+                <img src="{{ url_for('static', filename='profile (2).jpg') }}" alt="User Profile" class="profile-pic">
+                <h2 id="welcome-message">Welcome, <span id="user-name">Doctor</span>!</h2>
+                <p id="user-role">Role: <span id="role">Healthcare Provider</span></p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('healthcare_provider.html') }}" class="active">Dashboard</a></li>
+                <li><a href="{{ url_for('patient_records.html') }}">Patient Records</a></li>
+                
+                
+                <li><a href="{{ url_for('settings') }}">Settings</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <header>
+                <h1>Healthcare Provider Dashboard</h1>
+                <a href="{{ url_for('home') }}"
+        class="signup-btn">Home</a>
+            </header>
+            
+            <section class="quick-actions">
+              <button onclick="location.href='/search';">Access Patient Records</button>
+                
+            </section>
+
+            <section class="role-specific">
+                <h2>Healthcare Tools</h2>
+                <ul>
+                    <li>Access and Update Patient Medical Records</li>
+                    <li>Submit and Review Medical Reports</li>
+                    <li>Schedule and Manage Appointments</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+   
+</body>
+</html>
