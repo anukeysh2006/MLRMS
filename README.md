@@ -36,7 +36,7 @@ Each user role has a dedicated dashboard and view-specific access:
 | Frontend | HTML5, CSS3, JavaScript |
 | Backend | Flask (Python 3.9+) |
 | Database | SQLite3 |
-| Hosting/Server | Flask’s built-in dev server |
+| Hosting/Server |Render sever |
 | Testing | Postman |
 | Editor | VS Code / PyCharm |
 
