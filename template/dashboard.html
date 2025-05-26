@@ -55,24 +55,30 @@
 
             </section>
 
-            <section class="recent-activity">
-                <h2>Recent Activity</h2>
-                <ul>
-                    <li>Last Accessed Record: <span id="last-accessed">Record 123</span></li>
-                    <li>Pending Approvals: <span id="pending-approvals">2</span></li>
-                </ul>
-            </section>
+            
 
             <section class="role-specific">
-                <h2>Role-Specific Section</h2>
-                <div id="admin-activity">
-                    <h3>Admin Activity</h3>
-                    <ul>
-                        <li>User logged in: <span id="user-login">{{ user_name }}</span></li>
-                        <li>User logged out: <span id="user-logout">-</span></li>
-                    </ul>
-                </div>
-            </section>
+    <h2>Role-Specific Section</h2>
+    
+    {% if user_role == 'Hospital Administrator' %}
+    <div id="admin-activity">
+        <h3>Admin Activity</h3>
+        <ul>
+            <li>Upload & view medical records</li>
+            <li>Accept/Reject record access</li>
+            <li>Search medical records</li>
+        </ul>
+    </div>
+    {% elif user_role == 'Healthcare Providers' %}
+    <div id="provider-activity">
+        <h3>Healthcare Provider Activity</h3>
+        <ul>
+            <li>Search and view medical records</li>
+        </ul>
+    </div>
+    {% endif %}
+</section>
+
         </div>
     </div>
 
