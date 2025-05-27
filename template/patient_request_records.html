@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Request Medical Records</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: #f4f7f9;
         }
+
         body::before {
             content: '';
             position: fixed;
@@ -18,56 +23,122 @@
             background-size: cover;
             background-position: center;
         }
-        h2 {
-            text-align: center;
+
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            margin: 0 auto 30px auto;
+        }
+
+        .header-bar h2 {
+            margin: 0;
             color: white;
         }
+
+        .signup-btn {
+            background-color: #2980b9;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .signup-btn:hover {
+            background-color: #1f6391;
+        }
+
         .search-bar {
             text-align: center;
             margin-bottom: 20px;
         }
+
+        .search-bar input {
+            padding: 8px;
+            width: 250px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .search-bar button {
+            padding: 8px 16px;
+            background: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background: #1f6391;
+        }
+
         .message {
             text-align: center;
             color: white;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 20px;
         }
+
         table {
             width: 90%;
-            margin: auto;
+            margin: 20px auto;
             border-collapse: collapse;
-            background: white;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
+
         th, td {
-            padding: 10px;
+            padding: 12px 15px;
             border: 1px solid #ccc;
             text-align: center;
         }
+
         th {
-            background: #2c3e50;
+            background-color: #2c3e50;
             color: white;
         }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
         button {
             padding: 6px 12px;
             background: #2980b9;
             color: white;
             border: none;
             border-radius: 4px;
+            cursor: pointer;
         }
+
+        button:hover {
+            background: #1f6391;
+        }
+
         button:disabled {
             background: #95a5a6;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-    <h2>Request Access to Medical Records</h2>
+
+    <div class="header-bar">
+        <h2>Request Access to Medical Records</h2>
+        <a href="{{ url_for('dashboard_redirect') }}" class="signup-btn">Back to Dashboard</a>
+    </div>
 
     <form class="search-bar" method="GET" action="{{ url_for('patient_request_records') }}">
         <input type="text" name="case_id" placeholder="Enter Case ID" required>
         <button type="submit">Search</button>
     </form>
-{% if previous_requests %}
-    <h2 style="margin-top: 30px;">Your Previous Access Requests</h2>
+
+    {% if previous_requests %}
+    <h2 style="text-align:center; color:white;">Your Previous Access Requests</h2>
     <table>
         <tr>
             <th>Case ID</th>
@@ -90,42 +161,43 @@
         </tr>
         {% endfor %}
     </table>
-{% endif %}
+    {% endif %}
 
     {% if records %}
-        <table>
-            <tr>
-                <th>Case ID</th>
-                <th>Patient Name</th>
-                <th>Date</th>
-                <th>Category</th>
-                <th>Notes</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-            {% for record in records %}
-            <tr>
-                <td>{{ record.case_id }}</td>
-                <td>{{ record.patient_name }}</td>
-                <td>{{ record.date }}</td>
-                <td>{{ record.category }}</td>
-                <td>{{ record.notes or "N/A" }}</td>
-                <td>{{ record.permission_status }}</td>
-                <td>
-                    {% if record.permission_status == 'Not Requested' %}
-                    <form method="POST" action="{{ url_for('patient_submit_request') }}">
-                        <input type="hidden" name="case_id" value="{{ record.case_id }}">
-                        <button type="submit">Request Access</button>
-                    </form>
-                    {% else %}
-                    <button disabled>{{ record.permission_status }}</button>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+    <table>
+        <tr>
+            <th>Case ID</th>
+            <th>Patient Name</th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Notes</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.case_id }}</td>
+            <td>{{ record.patient_name }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.category }}</td>
+            <td>{{ record.notes or "N/A" }}</td>
+            <td>{{ record.permission_status }}</td>
+            <td>
+                {% if record.permission_status == 'Not Requested' %}
+                <form method="POST" action="{{ url_for('patient_submit_request') }}">
+                    <input type="hidden" name="case_id" value="{{ record.case_id }}">
+                    <button type="submit">Request Access</button>
+                </form>
+                {% else %}
+                <button disabled>{{ record.permission_status }}</button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
     {% elif request.args.get('case_id') %}
-        <p class="message">No records found for Case ID '{{ request.args.get('case_id') }}'</p>
+    <p class="message">No records found for Case ID '{{ request.args.get('case_id') }}'</p>
     {% endif %}
+
 </body>
 </html>

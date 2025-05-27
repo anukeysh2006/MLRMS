@@ -10,6 +10,7 @@
             padding: 30px;
             background: #f4f6f8;
         }
+        
         h2 {
             text-align: center;
             color: #2c3e50;
@@ -46,6 +47,9 @@
     </style>
 </head>
 <body>
+    <div class="dash">
+            <a style="color: white; padding-left:1000px;  " href="{{ url_for('dashboard_redirect') }}" class="signup-btn">Back to Dashboard</a>
+    </div>
     <!-- Existing Pending Section -->
 <h2 style="text-align:center; margin-top: 20px; color:white ">Pending Permission Requests</h2>
 {% if pending_requests %}

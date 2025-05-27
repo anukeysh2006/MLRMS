@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Approved Records</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='table.css') }}">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,131 +15,153 @@
             min-height: 100vh;
         }
 
-        .records-container {
+        .container {
             background-color: white;
             margin-top: 60px;
-            padding: 30px;
+            padding: 40px;
             border-radius: 16px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
             width: 90%;
-            max-width: 900px;
+            max-width: 1000px;
         }
 
-        h2 {
-            text-align: center;
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 30px;
+        }
+
+        .header-bar h2 {
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .back-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+
+        h3 {
             color: #333;
+            text-align: center;
+            margin-top: 40px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-top: 16px;
+            margin-bottom: 30px;
         }
 
         th, td {
             padding: 14px;
             text-align: center;
-            border-bottom: 1px solid #ddd;
+            border: 1px solid #ddd;
         }
 
         th {
-            background-color: #007BFF;
+            background-color: #007bff;
             color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
 
         tr:hover {
             background-color: #f1f1f1;
         }
 
-        a.download-btn {
-            text-decoration: none;
-            padding: 8px 16px;
+        .download-btn {
             background-color: #28a745;
             color: white;
+            padding: 8px 16px;
             border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
             transition: background-color 0.3s ease;
         }
 
-        a.download-btn:hover {
+        .download-btn:hover {
             background-color: #218838;
-        }
-
-        a.back-link {
-            display: inline-block;
-            margin-top: 16px;
-            text-decoration: none;
-            color: #007BFF;
-            font-weight: 500;
-        }
-
-        a.back-link:hover {
-            text-decoration: underline;
         }
 
         p {
             text-align: center;
             color: #666;
             font-size: 16px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-<div class="records-container">
-    <h2>Approved Policyholder Records (Medical)</h2>
+<div class="container">
+    <div class="header-bar">
+        <h2>Approved Policyholder Records</h2>
+        <a href="{{ url_for('insurance_company') }}" class="back-btn">Back to Dashboard</a>
+    </div>
+
+    <h3>Medical Records</h3>
     {% if records_medical %}
-    <table>
-        <thead>
-            <tr>
-                <th>Case ID</th>
-                <th>File Path</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for record in records_medical %}
-            <tr>
-                <td>{{ record.case_id }}</td>
-                <td>{{ record.file_path }}</td>
-                <td>
-                    <a href="{{ url_for('insurance_download', record_id=record.record_id) }}" class="download-btn">Download</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Case ID</th>
+                    <th>File Path</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records_medical %}
+                    <tr>
+                        <td>{{ record.case_id }}</td>
+                        <td>{{ record.file_path }}</td>
+                        <td>
+                            <a href="{{ url_for('insurance_download', record_id=record.record_id) }}" class="download-btn">Download</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% else %}
-    <p>No approved Medical records available.</p>
+        <p>No approved Medical records available.</p>
     {% endif %}
 
-    <h2>Approved Policyholder Records (Legal)</h2>
+    <h3>Legal Records</h3>
     {% if records_legal %}
-    <table>
-        <thead>
-            <tr>
-                <th>Case ID</th>
-                <th>File Path</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for record in records_legal %}
-            <tr>
-                <td>{{ record.case_id }}</td>
-                <td>{{ record.file_path }}</td>
-                <td>
-                    <a href="{{ url_for('insurance_download', record_id=record.record_id) }}" class="download-btn">Download</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Case ID</th>
+                    <th>File Path</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records_legal %}
+                    <tr>
+                        <td>{{ record.case_id }}</td>
+                        <td>{{ record.file_path }}</td>
+                        <td>
+                            <a href="{{ url_for('insurance_download', record_id=record.record_id) }}" class="download-btn">Download</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% else %}
-    <p>No approved Legal records available.</p>
+        <p>No approved Legal records available.</p>
     {% endif %}
-
-    <a href="{{ url_for('insurance_company') }}" class="back-link">← Back to Dashboard</a>
 </div>
-
 </body>
 </html>

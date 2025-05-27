@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Medical Records</title>
+    <title>Medical Records</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
     <style>
         body {
@@ -12,11 +12,33 @@
             background-color: #f8f9fa;
             color: #333;
         }
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #007BFF;
+
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            margin: 0 auto 30px auto;
         }
+
+        .header-bar h2 {
+            margin: 0;
+            color: #f5f7f8;
+        }
+
+        .signup-btn {
+            background-color: #007BFF;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .signup-btn:hover {
+            background-color: #0056b3;
+        }
+
         table {
             width: 90%;
             margin: 0 auto;
@@ -24,25 +46,31 @@
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         th, td {
             padding: 12px 15px;
             border: 1px solid #dee2e6;
             text-align: center;
         }
+
         th {
             background-color: #007BFF;
             color: white;
         }
+
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+
         a {
             color: #007BFF;
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
         }
+
         p {
             text-align: center;
             font-size: 1.1em;
@@ -52,7 +80,11 @@
     </style>
 </head>
 <body>
-    <h2 style="text-align:center; margin-top: 20px; color:white "> Medical Records</h2>
+
+    <div class="header-bar">
+        <h2>Medical Records</h2>
+        <a href="{{ url_for('dashboard_redirect') }}" class="signup-btn">Back to Dashboard</a>
+    </div>
 
     {% if records %}
     <table>
@@ -76,7 +108,8 @@
         {% endfor %}
     </table>
     {% else %}
-    <p style="text-align:center; margin-top: 20px; color:white "> No  medical records found.</p>
+    <p>No medical records found.</p>
     {% endif %}
+
 </body>
 </html>

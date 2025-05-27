@@ -411,7 +411,7 @@ def search():
             SELECT patient_name, case_id, date, category, file_path
             FROM records
             WHERE LOWER(patient_name) LIKE ?
-               OR LOWER(case_id) LIKE ?
+               OR LOWER(case_id) LIKE ? 
         '''
         params = [f'%{keyword}%', f'%{keyword}%']
 

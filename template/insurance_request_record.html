@@ -15,20 +15,42 @@
             min-height: 100vh;
         }
 
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1100px;
+            margin-top: 30px;
+        }
+
+        .header-bar h2 {
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .signup-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .signup-btn:hover {
+            background-color: #0056b3;
+        }
+
         .form-container {
             background-color: white;
             padding: 40px;
             border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             text-align: center;
-            max-width: 400px;
+            max-width: 500px;
             width: 90%;
             margin-top: 40px;
-        }
-
-        h2 {
-            margin-bottom: 24px;
-            color: #333;
         }
 
         .message {
@@ -66,32 +88,26 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            width: 100%;
         }
 
         button:hover {
             background-color: #0056b3;
         }
 
-        a {
-            display: block;
-            margin-top: 16px;
-            text-decoration: none;
-            color: #007BFF;
-            font-weight: 500;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
         .table-container {
-            margin-top: 40px;
+            margin-top: 50px;
             width: 90%;
             max-width: 1100px;
             background-color: white;
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        h3 {
+            text-align: center;
+            color: #2c3e50;
         }
 
         table {
@@ -111,15 +127,29 @@
             color: white;
         }
 
-        td {
-            background-color: #f9f9f9;
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        p {
+            text-align: center;
+            font-style: italic;
+            color: #555;
         }
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <h2>Request Access to Policyholder Record</h2>
 
+    <div class="header-bar">
+        <h2>Request Policyholder Record</h2>
+        <a href="{{ url_for('insurance_company') }}" class="signup-btn">Back to Dashboard</a>
+    </div>
+
+    <div class="form-container">
         {% if message %}
             <p class="message {% if 'submitted' in message %}success{% endif %}">{{ message }}</p>
         {% endif %}
@@ -129,13 +159,11 @@
             <input type="text" id="case_id" name="case_id" required>
             <button type="submit">Request Access</button>
         </form>
-
-        <a href="{{ url_for('insurance_company') }}">← Back to Dashboard</a>
     </div>
 
     {% if requested_records %}
     <div class="table-container">
-        <h2>Your Record Access Requests</h2>
+        <h3>Your Record Access Requests</h3>
         <table>
             <thead>
                 <tr>
@@ -145,7 +173,6 @@
                     <th>Category</th>
                     <th>Notes</th>
                     <th>Status</th>
-                   
                 </tr>
             </thead>
             <tbody>
@@ -157,13 +184,12 @@
                     <td>{{ record.category }}</td>
                     <td>{{ record.notes or "N/A" }}</td>
                     <td>{{ record.status }}</td>
-                    
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        
     </div>
     {% endif %}
+
 </body>
 </html>

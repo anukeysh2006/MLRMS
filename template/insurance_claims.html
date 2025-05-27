@@ -3,28 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Insurance Claims</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='table.css') }}">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f9;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
             padding: 40px;
-            color: #333;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
         }
 
         h2 {
-            text-align: center;
+            margin: 0;
             color: #2c3e50;
-            margin-bottom: 30px;
+        }
+
+        .dashboard-btn {
+            padding: 10px 18px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .dashboard-btn:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            text-align: center;
+            color: green;
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background-color: #fff;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            border-radius: 12px;
-            overflow: hidden;
         }
 
         thead {
@@ -46,6 +82,11 @@
             background-color: #eef6ff;
         }
 
+        .no-action {
+            color: #888;
+            font-style: italic;
+        }
+
         a {
             color: #007bff;
             text-decoration: none;
@@ -54,15 +95,6 @@
 
         a:hover {
             text-decoration: underline;
-        }
-
-        td:last-child {
-            white-space: nowrap;
-        }
-
-        .no-action {
-            color: #888;
-            font-style: italic;
         }
 
         @media (max-width: 768px) {
@@ -97,16 +129,22 @@
     </style>
 </head>
 <body>
-    <h2>Insurance Claims Received</h2>
+<div class="container">
+    <div class="header">
+        <h2>Insurance Claims Received</h2>
+        <a href="{{ url_for('insurance_company') }}" class="dashboard-btn">Dashboard</a>
+    </div>
+
     {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul style="color: green; text-align: center; list-style: none; padding: 0;">
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     {% endwith %}
+
     <table>
         <thead>
             <tr>
@@ -130,17 +168,14 @@
                 <td data-label="Gender">{{ claim.gender }}</td>
                 <td data-label="Age">{{ claim.age }}</td>
                 <td data-label="Additional Details">{{ claim.additional_details }}</td>
-               <td data-label="Uploaded Bills">
-    {% if claim.bills_path %}
-        {% set filename = claim.bills_path.replace('\\', '/').split('/')[-1] %}
-
-        <a href="{{ url_for('serve_bill_file', filename=filename) }}" target="_blank">View</a>
-    {% else %}
-        <span class="no-action">No File</span>
-    {% endif %}
-</td>
-
-
+                <td data-label="Uploaded Bills">
+                    {% if claim.bills_path %}
+                        {% set filename = claim.bills_path.replace('\\', '/').split('/')[-1] %}
+                        <a href="{{ url_for('serve_bill_file', filename=filename) }}" target="_blank">View</a>
+                    {% else %}
+                        <span class="no-action">No File</span>
+                    {% endif %}
+                </td>
                 <td data-label="Status">{{ claim.status or "Pending" }}</td>
                 <td data-label="Action">
                     {% if claim.status not in ["Approved", "Rejected"] %}
@@ -154,5 +189,6 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
 </body>
 </html>

@@ -3,18 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Apply for Insurance</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f9f9f9;
-            padding: 30px;
+            background-color: #f4f7f9;
+            padding: 40px 20px;
+            margin: 0;
             color: #333;
         }
 
-        h2, h3 {
-            text-align: center;
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            margin: 0 auto 30px auto;
+        }
+
+        .header-bar h2 {
+            margin: 0;
             color: #2c3e50;
+        }
+
+        .signup-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .signup-btn:hover {
+            background-color: #0056b3;
         }
 
         form {
@@ -57,9 +78,15 @@
             background-color: #0056b3;
         }
 
+        h3 {
+            text-align: center;
+            margin-top: 50px;
+            color: #2c3e50;
+        }
+
         table {
             width: 90%;
-            margin: 40px auto 0;
+            margin: 20px auto;
             border-collapse: collapse;
             background-color: white;
             box-shadow: 0 0 10px rgba(0,0,0,0.05);
@@ -78,6 +105,10 @@
             color: white;
         }
 
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
         tr:hover {
             background-color: #f1f1f1;
         }
@@ -85,11 +116,16 @@
         p {
             text-align: center;
             font-style: italic;
+            color: #555;
         }
     </style>
 </head>
 <body>
-    <h2>Apply for Insurance</h2>
+
+    <div class="header-bar">
+        <h2>Apply for Insurance</h2>
+        <a href="{{ url_for('dashboard_redirect') }}" class="signup-btn">Back to Dashboard</a>
+    </div>
 
     <form method="get" action="{{ url_for('claim_insurance', company_id=0) }}" onsubmit="return setCompanyID(event)">
         <label for="company">Select Insurance Company:</label>
@@ -116,28 +152,29 @@
     <h3>Approved Claims</h3>
 
     {% if approved_claims %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Claim ID</th>
-                    <th>Case ID</th>
-                    <th>Insurance Company</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for claim in approved_claims %}
-                    <tr>
-                        <td>{{ claim['claim_id'] }}</td>
-                        <td>{{ claim['case_id'] }}</td>
-                        <td>{{ claim['company_name'] }}</td>
-                        <td>{{ claim['status'] }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <table>
+        <thead>
+            <tr>
+                <th>Claim ID</th>
+                <th>Case ID</th>
+                <th>Insurance Company</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for claim in approved_claims %}
+            <tr>
+                <td>{{ claim['claim_id'] }}</td>
+                <td>{{ claim['case_id'] }}</td>
+                <td>{{ claim['company_name'] }}</td>
+                <td>{{ claim['status'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% else %}
-        <p>No approved claims found.</p>
+    <p>No approved claims found.</p>
     {% endif %}
+
 </body>
 </html>
